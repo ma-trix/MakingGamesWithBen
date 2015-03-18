@@ -1,9 +1,12 @@
 #pragma once
+#include "UnitStats.h"
+#include <random>
 
 using namespace std;
+
 class Unit
 {
-public: 
+public:
 	string name;
 	float HP;
 	int dmgLow;
@@ -12,7 +15,7 @@ public:
 	float hitHigh;
 	int hitPercentage;
 	mt19937 randomGenerator;
-	float attackFor();
+	float Attack(Unit* opponent);
 	float dealDmg(float dmg);
 	Unit(UnitStats stats, mt19937 randomG);
 };

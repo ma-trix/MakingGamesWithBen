@@ -27,17 +27,13 @@ int main()
 
 	while(!isDead)
 	{
-		attackValue = attacker.attackFor();
-		cout << attacker.name << " attacked for " << attackValue << endl;
-		float hpLeft = defender.dealDmg(attackValue);
-		if (hpLeft <= 0)
+		attacker.Attack(&defender);
+		if (defender.HP == 0)
 		{
 			isDead = true;
-			cout << defender.name << " died." << endl;
 		}
 		else 
 		{
-			cout << defender.name << " is left with " << hpLeft << " HP" << endl;
 			auto tmp = attacker;
 			attacker = defender;
 			defender = tmp;
