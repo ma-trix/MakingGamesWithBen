@@ -1,9 +1,9 @@
 #include <iostream>
 #include <random>
 #include <ctime>
-#include <string>
 #include "UnitStats.h"
 #include "Unit.h"
+#include "ArmyManager.h"
 
 using namespace std;
 
@@ -19,16 +19,21 @@ int main()
 	auto human = Unit(humanStats, randomGenerator);
 	auto orc = Unit(orcStats, randomGenerator);
 
-	int attackValue;
 	auto isDead = false;
 
-	auto attacker = human;
-	auto defender = orc;
+	
+	int noAttackers = 1;
+	int noDefenders = 1;
+
+	ArmyManager* humans = new ArmyManager(&human, noAttackers);
+	ArmyManager* orcs = new ArmyManager(&orc, noDefenders);
+	auto attacker = humans;
+	auto defender = orcs;
 
 	while(!isDead)
 	{
-		attacker.Attack(&defender);
-		if (defender.HP == 0)
+		attacker->Attack(defender);
+		if (defender->unit->HP == 0)
 		{
 			isDead = true;
 		}
@@ -38,7 +43,6 @@ int main()
 			attacker = defender;
 			defender = tmp;
 		}
-
 	}
 
 	system("PAUSE");
