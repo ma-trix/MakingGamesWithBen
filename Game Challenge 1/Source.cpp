@@ -7,13 +7,22 @@
 
 using namespace std;
 
+void EndScreen(ArmyManager* attacker, ArmyManager* defender)
+{
+	cout << endl << endl;
+	cout << attacker->unitStats.name << " left: " << attacker->number << endl;
+	cout << defender->unitStats.name << " left: " << defender->number << endl;
+
+	return;
+}
+
 int main()
 {
 	mt19937 randomGenerator(time(nullptr));
 
 	UnitStats humanStats = { "human", 100, 12, 23, 0.0, 1.0, 80 };
 	UnitStats orcStats = { "orc", 120, 16, 30, 0.0, 1.0, 70 };
-	UnitStats monsterStats = { "monster", 2000, 73, 127, 0.0, 1.0, 60 };
+	UnitStats monsterStats = { "monster", 300, 73, 127, 0.0, 1.0, 60 };
 
 	auto monster = Unit(monsterStats, randomGenerator);
 	auto human = Unit(humanStats, randomGenerator);
@@ -21,19 +30,20 @@ int main()
 
 	auto isDead = false;
 
-	
-	int noAttackers = 1;
-	int noDefenders = 1;
 
-	ArmyManager* humans = new ArmyManager(&human, noAttackers);
-	ArmyManager* orcs = new ArmyManager(&orc, noDefenders);
+	auto noAttackers = 7;
+	auto noDefenders = 1;
+
+	auto monsters = new ArmyManager(&monster, monsterStats, noDefenders);
+	auto humans = new ArmyManager(&human, humanStats, noAttackers);
+	auto orcs = new ArmyManager(&orc, orcStats, noDefenders);
 	auto attacker = humans;
-	auto defender = orcs;
+	auto defender = monsters;
 
 	while(!isDead)
 	{
 		attacker->Attack(defender);
-		if (defender->unit->HP == 0)
+		if (defender->unit->HP == 0 && defender->number == 0)
 		{
 			isDead = true;
 		}
@@ -44,6 +54,8 @@ int main()
 			defender = tmp;
 		}
 	}
+
+	EndScreen(attacker, defender);
 
 	system("PAUSE");
 	return 0;

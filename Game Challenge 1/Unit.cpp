@@ -6,15 +6,15 @@
 float Unit::Attack(Unit* opponent)
 {
 	uniform_real_distribution<float> hitRoll(hitLow, hitHigh);
-
+	cout << "A: " << name << " | D: " << opponent->name << endl;
 	if (hitRoll(randomGenerator) * 100 <= hitPercentage)
 	{
 		uniform_real_distribution<float> dmgRoll(dmgLow, dmgHigh);
 		auto dmg = dmgRoll(randomGenerator);
-		cout << "A: " << name << " | D: " << opponent->name << endl;
 		opponent->dealDmg(dmg);
 		return dmg;
 	}
+	cout << "MISS !!" << endl;
 	return 0;
 }
 
@@ -29,6 +29,7 @@ float Unit::dealDmg(float dmg)
 	}
 	cout << name << " died." << endl;
 	HP = 0;
+	
 	return HP;
 }
 
